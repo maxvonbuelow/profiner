@@ -43,7 +43,7 @@ void accumulate_hit_rates(const MA *memaccs, uint32_t n, BufAccu *accus_l1, BufA
 void before_sim(CacheSim &cachesim)
 {
 }
-void after_sim(CacheSim &cachesim, uint64_t nwarps)
+void after_sim(CacheSim &cachesim)
 {
 	std::vector<BufAccu> accus_l1(cachesim.allocs.size());
 	std::vector<BufAccu> accus_l2(cachesim.allocs.size());

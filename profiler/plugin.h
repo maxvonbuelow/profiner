@@ -21,4 +21,4 @@
 #include "cachesim.h"
 
 extern "C" void before_sim(CacheSim &cs);
-extern "C" void after_sim(CacheSim &cs, uint64_t nwarps);
+extern "C" void after_sim(CacheSim &cs);

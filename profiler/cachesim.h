@@ -203,6 +203,14 @@ struct CacheSim {
 	{
 		griddim = CUDADim{ nbx, nby, nbz,    ntx, nty, ntz };
 	}
+
+	uint32_t nwarps()
+	{
+		uint32_t nb = griddim.bx * griddim.by * griddim.bz;
+		uint32_t nt = griddim.tx * griddim.ty * griddim.tz;
+		uint32_t nw = (nt + 31) / 32;
+		return nb * nw;
+	}
 	
 	struct Conf {
 		bool record_coalescing = false, record_gwarpid = false;
