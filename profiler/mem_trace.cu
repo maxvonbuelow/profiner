@@ -150,6 +150,7 @@ memop parse_op(Instr &instr)
 }
 
 uint32_t nctax, nctay, nctaz;
+uint32_t ntx, nty, ntz;
 std::size_t taboff;
 uint64_t lmem_min_a = std::numeric_limits<uint64_t>::max();
 uint64_t max_a = std::numeric_limits<uint64_t>::min();
@@ -271,6 +272,8 @@ int kernelidx = 0;
 void proc_memaccs(MemAccList &memaccblocks, int nwarps)
 {
 	cachesim.clear();
+
+	cachesim.grid(nctax, nctay, nctaz, ntx, nty, ntz);
 
 	for (void *handle : plugins) {
 		decltype(&before_sim) cb = (decltype(&before_sim))dlsym(handle, "before_sim");
@@ -466,6 +469,9 @@ void nvbit_at_cuda_event(CUcontext ctx, int is_exit, nvbit_api_cuda_t cbid,
 			nctax = p->gridDimX;
 			nctay = p->gridDimY;
 			nctaz = p->gridDimZ;
+			ntx = p->blockDimX;
+			nty = p->blockDimY;
+			ntz = p->blockDimZ;
 			CUDA_SAFECALL(
 				cuFuncGetAttribute(&lmem_static_nbytes,
 									CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES, p->f));

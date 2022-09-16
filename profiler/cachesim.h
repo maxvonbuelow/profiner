@@ -144,6 +144,10 @@ struct CacheConf {
 	uint32_t l2_assoc;
 };
 
+struct CUDADim {
+	uint32_t bx, by, bz;
+	uint32_t tx, ty, tz;
+};
 
 struct CacheSim {
 // 	typedef RandomEvictionCacheSim CacheType;
@@ -154,6 +158,52 @@ struct CacheSim {
 	std::vector<uint64_t> gwarpids;
 	std::vector<MACoalescingInfo> coalescing;
 	std::vector<CacheType> reuse_l1_storage;
+	CUDADim griddim;
+
+	std::size_t size()
+	{
+		return memaccs.size();
+	}
+	int dims_at(uint64_t idx, CUDADim *dims)
+	{
+		CUDADim dim;
+		uint64_t g_warp_id = gwarpids[idx];
+		uint32_t lanes = coalescing[idx].lanes;
+
+		// decompose global warp ID into block ID and local warp ID
+		uint32_t n_threads = griddim.tx * griddim.ty * griddim.tz;
+		uint32_t n_warps = (n_threads + 31) / 32;
+		uint32_t block_id = g_warp_id / n_warps;
+		uint32_t local_warp_id = g_warp_id % n_warps;
+
+		// decompose block ID
+		dim.bz = block_id / (griddim.bx * griddim.by);
+		uint32_t tmp = block_id % (griddim.bx * griddim.by);
+		dim.by = tmp / griddim.by;
+		dim.bz = tmp % griddim.by;
+
+		// calculate local thread IDs from local warp ID
+		int j = 0;
+		for (int i = 0; i < 32; ++i) {
+			if (!(lanes & ((uint32_t)1 << i))) continue; // this memory reference is not included in that lane
+
+			uint32_t l_thread_id = local_warp_id * 32 + i;
+
+			// decompose local thread ID
+			dim.tz = l_thread_id / (griddim.tx * griddim.ty);
+			tmp = l_thread_id % (griddim.tx * griddim.ty);
+			dim.ty = tmp / griddim.ty;
+			dim.tx = tmp % griddim.ty;
+
+			dims[j++] = dim;
+		}
+		return j;
+	}
+	void grid(uint32_t nbx, uint32_t nby, uint32_t nbz, uint32_t ntx, uint32_t nty, uint32_t ntz)
+	{
+		griddim = CUDADim{ nbx, nby, nbz,    ntx, nty, ntz };
+	}
+	
 	struct Conf {
 		bool record_coalescing = false, record_gwarpid = false;
 	};
