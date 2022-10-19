@@ -435,7 +435,7 @@ void proc_memaccs(MemAccList &memaccblocks, int nwarps)
 
 	for (void *handle : plugins) {
 		decltype(&after_sim) cb = (decltype(&after_sim))dlsym(handle, "after_sim");
-// 		(*cb)(cachesim);
+		(*cb)(cachesim);
 	}
 }
 
