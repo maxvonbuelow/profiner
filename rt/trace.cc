@@ -1140,7 +1140,7 @@ void trace_gpu_sah(uint8_t *framebuf, uint32_t *subtrees, float *bounds, FaceG *
 			PersistentTraceKernelIfIf<V, A, S><<<griddp, blockdp>>>(framebuf, subtrees, bounds, faces, vtx, vtxextra, w, h, cam, nleafesmax);
 		}
 	} else {
-		std::exit(1);
+// 		std::exit(1);
 		TraceKernel<V, A><<<gridd, blockd>>>(0, 0, framebuf, subtrees, bounds, faces, vtx, vtxextra, w, h, cam, nleafesmax);
 	}
 	cudaEventRecord(stop);

@@ -42,6 +42,8 @@ void accumulate_hit_rates(const MA *memaccs, uint32_t n, BufAccu *accus_l1, BufA
 }
 void before_sim(CacheSim &cachesim)
 {
+	cachesim.conf.record_coalescing = true;
+	cachesim.conf.record_gwarpid = true;
 }
 void after_sim(CacheSim &cachesim)
 {

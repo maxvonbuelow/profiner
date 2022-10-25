@@ -179,8 +179,8 @@ struct CacheSim {
 		// decompose block ID
 		dim.bz = block_id / (griddim.bx * griddim.by);
 		uint32_t tmp = block_id % (griddim.bx * griddim.by);
-		dim.by = tmp / griddim.by;
-		dim.bz = tmp % griddim.by;
+		dim.by = tmp / griddim.bx;
+		dim.bx = tmp % griddim.bx;
 
 		// calculate local thread IDs from local warp ID
 		int j = 0;
@@ -192,8 +192,8 @@ struct CacheSim {
 			// decompose local thread ID
 			dim.tz = l_thread_id / (griddim.tx * griddim.ty);
 			tmp = l_thread_id % (griddim.tx * griddim.ty);
-			dim.ty = tmp / griddim.ty;
-			dim.tx = tmp % griddim.ty;
+			dim.ty = tmp / griddim.tx;
+			dim.tx = tmp % griddim.tx;
 
 			dims[j++] = dim;
 		}
