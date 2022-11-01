@@ -37,18 +37,21 @@ Most parts of our program are licensed under the GPLv3 license included as LICEN
 If you decide to use our code or code based on this project in your application, please make sure to cite our pacific graphics paper:
 
 ```
-@article{buelow2022finegrained,
-    title = {Fine-Grained Memory Profiling of GPGPU Kernels},
-    author = {von Buelow, Max and Guthe, Stefan and Fellner, Dieter W.},
-    journal = {Computer Graphics Forum},
-    issuetitle = {Pacific Graphics},
-    volume = {41},
-    number = {7},
-    editor = {Umetani, Nobuyuki and Vouga, Etienne and Wojtan, Chris},
-    date = {2022-10},
-    publisher = {The Eurographics Association and John Wiley \& Sons Ltd.},
-    venue = {Kyoto, Japan},
-    pubstate = {forthcoming}
+@article{10.1111/cgf.14671,
+	title = {Fine-Grained Memory Profiling of GPGPU Kernels},
+	author = {von Buelow, Max and Guthe, Stefan and Fellner, Dieter W.},
+	journal = {Computer Graphics Forum},
+	issuetitle = {Pacific Graphics},
+	volume = {41},
+	number = {7},
+	editor = {Umetani, Nobuyuki and Vouga, Etienne and Wojtan, Chris},
+	date = {2022-10},
+	publisher = {The Eurographics Association and John Wiley \& Sons Ltd.},
+	venue = {Kyoto, Japan},
+	authororcid = {0000-0002-0036-319X, 0000-0002-6413-0061, 0000-0001-7756-0901},
+	pubstate = {inpress},
+	doi = {10.1111/cgf.14671},
+	issn = {1467-8659}
 }
 ```
 
